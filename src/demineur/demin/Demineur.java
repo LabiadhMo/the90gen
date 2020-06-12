@@ -16,51 +16,51 @@ public class Demineur
   private GridBagLayout layoutPanneauJeux = new GridBagLayout();
   private Segment affMines = new Segment(); //l'afficheur du nombre de mines
   private JButton boutonNouveau = new JButton();
-  private Segment affTemps = new Segment(); //l'afficheur du temps écoulé
+  private Segment affTemps = new Segment(); //l'afficheur du temps ï¿½coulï¿½
   private Border borderPanneaux;
   private JMenuBar menu = new JMenuBar();
   private JMenu partie = new JMenu("Partie");
   private JCheckBox pause = new JCheckBox("Pause");
   private JMenuItem menuNouveau = new JMenuItem("Nouveau");
-  JCheckBoxMenuItem menuDebutant = new JCheckBoxMenuItem("Débutant");
-  JCheckBoxMenuItem menuIntermediaire = new JCheckBoxMenuItem("Intermédiaire");
+  JCheckBoxMenuItem menuDebutant = new JCheckBoxMenuItem("Dï¿½butant");
+  JCheckBoxMenuItem menuIntermediaire = new JCheckBoxMenuItem("Intermï¿½diaire");
   JCheckBoxMenuItem menuExpert = new JCheckBoxMenuItem("Expert");
-  JCheckBoxMenuItem menuPerso = new JCheckBoxMenuItem("Personalisé");
+  JCheckBoxMenuItem menuPerso = new JCheckBoxMenuItem("Personalisï¿½");
   private BoxLayout layoutPanneauHaut = new BoxLayout(panneauHaut,
       BoxLayout.LINE_AXIS);
-  private Component box2; //Boxes utilisées dans le BoxLayout
+  private Component box2; //Boxes utilisï¿½es dans le BoxLayout
   private Component box3;
   private Component box1;
   private Component box4;
 
   private Icon cool, oups, boum, win; //images du bouton
 
-  int nDrapeau = 0; //nombres de drapeaux posés
+  int nDrapeau = 0; //nombres de drapeaux posï¿½s
   private int nMines; //nombre total de mines
   private int LARGEUR; //nombre de cases selon la largeur
   private int HAUTEUR; //nombre de cases selon la hauteur
-  private int nCases; //nombre de cases non découvertes restantes
-  DéminCase[][] jeux; //tableau des cases du jeux
-  private String mines; //chaînes de caractère qui contient la répartition des mines
+  private int nCases; //nombre de cases non dï¿½couvertes restantes
+  DÃ©minCase[][] jeux; //tableau des cases du jeux
+  private String mines; //chaï¿½nes de caractï¿½re qui contient la rï¿½partition des mines
   private int[][] casesSelectionnees = new int[8][2]; //reperages des cases selectionnees pour les deselectionnes lors du relachement de la sourie
   private Temps temps = new Temps(affTemps); //timer sur l'affichage Segment affTemps
   private int TYPE;
 
   //constructeur en fonction du nombre de cases, de mines et du type.
   //Le type permet de selectionner le bon mode dans le menu.
-  //type == 1 -> Débutant
-  //type == 2 -> Intermédiaire
+  //type == 1 -> Dï¿½butant
+  //type == 2 -> Intermï¿½diaire
   //type == 3 -> Expert
-  //type == 4 -> Personnalisé
+  //type == 4 -> Personnalisï¿½
   public Demineur(int hauteur, int largeur, int mines, int type) {
     HAUTEUR = hauteur;
     LARGEUR = largeur;
     nCases = HAUTEUR * LARGEUR;
     nMines = mines;
     TYPE = type;
-    jeux = new DéminCase[HAUTEUR][LARGEUR];
+    jeux = new DÃ©minCase[HAUTEUR][LARGEUR];
 
-    //Récupérer les gif dans le fichier .jar
+    //Rï¿½cupï¿½rer les gif dans le fichier .jar
     URL location;
     location = java.lang.ClassLoader.getSystemResource("demineur/images/cool.gif");
     cool = new ImageIcon(location);
@@ -71,14 +71,14 @@ public class Demineur
     location = java.lang.ClassLoader.getSystemResource("demineur/Images/win.gif");
     win = new ImageIcon(location);
 
-    //création des cases
+    //crï¿½ation des cases
     for (int i = 0; i < HAUTEUR; i++) {
       for (int j = 0; j < LARGEUR; j++) {
-        jeux[i][j] = new DéminCase();
+        jeux[i][j] = new DÃ©minCase();
       }
     }
 
-    //séléction du bon mode dans le JMenu
+    //sï¿½lï¿½ction du bon mode dans le JMenu
     if (type == 1) menuDebutant.setSelected(true);
     if (type == 2) menuIntermediaire.setSelected(true);
     if (type == 3) menuExpert.setSelected(true);
@@ -100,18 +100,18 @@ public class Demineur
 
   //initialises le jeux
   public void nouveau() {
-    temps.cancel(); //Timer à 0
-    boutonNouveau.setIcon(cool); //Icon par défaut du bouton
-    nDrapeau = 0; //réinitialisation des principaux paramètres
+    temps.cancel(); //Timer ï¿½ 0
+    boutonNouveau.setIcon(cool); //Icon par dï¿½faut du bouton
+    nDrapeau = 0; //rï¿½initialisation des principaux paramï¿½tres
     nCases = HAUTEUR * LARGEUR;
     affMines.setValeur(nMines);
     affTemps.setValeur(0);
-    panneauJeux.setVisible(true); //peut être à false en raison de la pause
+    panneauJeux.setVisible(true); //peut ï¿½tre ï¿½ false en raison de la pause
     pause.setSelected(false);
 
-    //Génération des mines
-    //dans la chaîne, 1=mine 0=rien
-    //on créé le bon nombre de mines puis on complète par des cases vides jusqu'à obtenir le nombre de cases total
+    //Gï¿½nï¿½ration des mines
+    //dans la chaï¿½ne, 1=mine 0=rien
+    //on crï¿½ï¿½ le bon nombre de mines puis on complï¿½te par des cases vides jusqu'ï¿½ obtenir le nombre de cases total
     mines = "";
     for (int i = 0; i < nMines; i++) mines = mines + "1";
     while (mines.length() < HAUTEUR * LARGEUR) {
@@ -119,11 +119,11 @@ public class Demineur
       mines = mines.substring(0, i) + "0" + mines.substring(i);
     }
 
-    //paramètres des cases
+    //paramï¿½tres des cases
     for (int i = 0; i < HAUTEUR; i++) {
       for (int j = 0; j < LARGEUR; j++) {
         jeux[i][j].reset();
-        jeux[i][j].removeMouseListener(this); //nécéssaire pour éviter un bug lors de l'appel de nouveau() une 2ème fois
+        jeux[i][j].removeMouseListener(this); //nï¿½cï¿½ssaire pour ï¿½viter un bug lors de l'appel de nouveau() une 2ï¿½me fois
         jeux[i][j].addMouseListener(this); //pour les clics!!!
         if (mines.charAt(i * LARGEUR + j) == '1') {
           jeux[i][j].setMine(true);
@@ -137,7 +137,7 @@ public class Demineur
       for (int j = 0; j < LARGEUR; j++) {
         if (!jeux[i][j].isMine()) {
           int n = 0;
-          //try car les cases n'existent pas forcément
+          //try car les cases n'existent pas forcï¿½ment
           try {
             if (jeux[i - 1][j - 1].isMine()) n++;
           }
@@ -170,7 +170,7 @@ public class Demineur
             if (jeux[i + 1][j + 1].isMine()) n++;
           }
           catch (java.lang.ArrayIndexOutOfBoundsException e) {}
-          jeux[i][j].setChiffre(n); //on indique à la case le nombre de mines
+          jeux[i][j].setChiffre(n); //on indique ï¿½ la case le nombre de mines
         }
       }
     }
@@ -179,7 +179,7 @@ public class Demineur
   private void jbInit() throws Exception {
     borderPanneaux = BorderFactory.createEtchedBorder(Color.white,
         new Color(156, 156, 156));
-    box2 = Box.createGlue(); //utilisés dans le jPanel1 pour la disposition
+    box2 = Box.createGlue(); //utilisï¿½s dans le jPanel1 pour la disposition
     box3 = Box.createGlue();
     box1 = Box.createHorizontalStrut(8);
     box1.setSize(5, 50);
@@ -193,7 +193,7 @@ public class Demineur
     if (tailleX < 160) tailleX = 150; //taille minimum en largeur
 
     this.setSize(tailleX + 6, tailleY + 50 + 23 + 25); //6=largeur du cadre de la fenetre, 25=hauteur de la barre windows
-    this.setTitle("Démineur");
+    this.setTitle("Dï¿½mineur");
     this.setResizable(false);
     this.setDefaultCloseOperation(HIDE_ON_CLOSE);
 
@@ -257,13 +257,13 @@ public class Demineur
     this.getContentPane().add(panneauJeux, BorderLayout.CENTER);
 
     //gr contient les graphismes de toutes les cases
-    //on le créé maintenant pour utiliser son GraphicsConfiguration()
+    //on le crï¿½ï¿½ maintenant pour utiliser son GraphicsConfiguration()
     Graphisme gr = new Graphisme(this.getGraphicsConfiguration());
 
-    //placement des cases dans la fenêtre
+    //placement des cases dans la fenï¿½tre
     for (int i = 0; i < HAUTEUR; i++) {
       for (int j = 0; j < LARGEUR; j++) {
-        jeux[i][j].setGraphisme(gr); //on indique les graphismes à la cases
+        jeux[i][j].setGraphisme(gr); //on indique les graphismes ï¿½ la cases
         panneauJeux.add(jeux[i][j], new GridBagConstraints(j, i, 1, 1, 0.0, 0.0
             , GridBagConstraints.CENTER, GridBagConstraints.NONE,
             new Insets(0, 0, 0, 0), 0, 0));
@@ -274,7 +274,7 @@ public class Demineur
   //Retourne le reperage de la case sous le clic de la souris si elle existe
   //(-1,-1) sinon
   public int[] caseClic(int x, int y) {
-    int OFFSETX = (int) jeux[0][0].getX() + 3; //décalage par rapport au coin en haut à gauche de la fenetre
+    int OFFSETX = (int) jeux[0][0].getX() + 3; //dï¿½calage par rapport au coin en haut ï¿½ gauche de la fenetre
     int OFFSETY = (int) jeux[0][0].getY() + 22;
     int posx = -1, posy = -1;
     if (x - OFFSETX >= 0) posx = (x - OFFSETX) / 16;
@@ -296,7 +296,7 @@ public class Demineur
           3; //retourne une exception si on est pas au dessus d'un panneau
       int y = (int) ( (JPanel) e.getSource()).getLocation().getY() + e.getY() +
           22;
-      int[] coord = caseClic(x, y); //coordonnées de la case enfoncée enregistrées dans coord
+      int[] coord = caseClic(x, y); //coordonnï¿½es de la case enfoncï¿½e enregistrï¿½es dans coord
       boutonNouveau.setIcon(oups); //bouton
 
       //si clic droit au dessus d'une case
@@ -326,10 +326,10 @@ public class Demineur
       x = coord[0];
       if (e.getButton() == e.BUTTON1 && x != -1 && y != -1 &&
           jeux[y][x].getEtat() == 1 && jeux[y][x].getChiffre() != 0) {
-        //on enregistre les coordonnées des cases séléctionnées
+        //on enregistre les coordonnï¿½es des cases sï¿½lï¿½ctionnï¿½es
         for (int i = 0; i < 7; i++) {
           for (int j = 0; j < 2; j++) {
-            casesSelectionnees[i][j] = -1; //effacement de la mémoire
+            casesSelectionnees[i][j] = -1; //effacement de la mï¿½moire
           }
         }
         //essai sur les huit cases autour
@@ -399,12 +399,12 @@ public class Demineur
         catch (Exception exc) {}
       }
     }
-    catch (java.lang.ClassCastException ex) {} //si clic n'import où
+    catch (java.lang.ClassCastException ex) {} //si clic n'import oï¿½
   }
 
   public void mouseReleased(MouseEvent e) {
 
-    //Si c'est le premier clic du jeux, on démarre le timer
+    //Si c'est le premier clic du jeux, on dï¿½marre le timer
     if (nCases == HAUTEUR * LARGEUR && e.getButton() == e.BUTTON1) {
       temps.cancel();
       temps = new Temps(affTemps);
@@ -413,19 +413,19 @@ public class Demineur
 
     try {
       int x = (int) ( (JPanel) e.getSource()).getLocation().getX() + e.getX() +
-          3; //génère des exceptions à cause du cast
+          3; //gï¿½nï¿½re des exceptions ï¿½ cause du cast
       int y = (int) ( (JPanel) e.getSource()).getLocation().getY() + e.getY() +
           22;
-      int[] coord = caseClic(x, y); //on récupère les coordonnées
+      int[] coord = caseClic(x, y); //on rï¿½cupï¿½re les coordonnï¿½es
       boutonNouveau.setIcon(cool); //remise du bouton sur l'icone cool
       if (coord[0] != -1 && coord[1] != -1) { //si on est au dessus d'une case
         y = coord[1];
         x = coord[0];
-        if (e.getButton() == e.BUTTON1) { //si clic gauche, on découvre
+        if (e.getButton() == e.BUTTON1) { //si clic gauche, on dï¿½couvre
           decouvre(y, x);
           repaint();
         }
-        jeux[y][x].setSelected(false); //on déselctionne la case ainsi que celle de la mémoire casesSelectionnees
+        jeux[y][x].setSelected(false); //on dï¿½selctionne la case ainsi que celle de la mï¿½moire casesSelectionnees
         try {
           jeux[casesSelectionnees[0][0]][casesSelectionnees[0][1]].setSelected(false);
         }
@@ -469,19 +469,19 @@ public class Demineur
   public void mouseExited(MouseEvent e) {
   }
 
-  //déclenchée par un appuie sur le bouton
+  //dï¿½clenchï¿½e par un appuie sur le bouton
   void boutonNouveau_actionPerformed(ActionEvent e) {
     if (!pause.isSelected()) nouveau();
   }
 
-  //méthode pour découvrir les cases
+  //mï¿½thode pour dï¿½couvrir les cases
   public void decouvre(int y, int x) {
     //Si la case est normale ou avec un ?
     if ( (jeux[y][x].getEtat() == 0 || jeux[y][x].getEtat() == 3) &&
         !jeux[y][x].isMine()) {
-      nCases--; //nombre de cases non découvertes
-      jeux[y][x].setEtat(1); //on indique que la case est découverte
-      if (jeux[y][x].getChiffre() == 0) { // Si le nombre de mines autour est nul, on découvre les cases autour
+      nCases--; //nombre de cases non dï¿½couvertes
+      jeux[y][x].setEtat(1); //on indique que la case est dï¿½couverte
+      if (jeux[y][x].getChiffre() == 0) { // Si le nombre de mines autour est nul, on dï¿½couvre les cases autour
         decouvrirPartiel1(x - 1, y - 1);
         decouvrirPartiel1(x - 1, y);
         decouvrirPartiel1(x - 1, y + 1);
@@ -495,7 +495,7 @@ public class Demineur
 
     //Si on est au dessus d'un chiffre
     else if (jeux[y][x].getEtat() == 1 && jeux[y][x].getChiffre() != 0) {
-      int n = 0; //on compte le nombre de drapeaux placés
+      int n = 0; //on compte le nombre de drapeaux placï¿½s
       if (decouvrirPartiel2(x - 1, y - 1)) n++;
       if (decouvrirPartiel2(x - 1, y)) n++;
       if (decouvrirPartiel2(x - 1, y + 1)) n++;
@@ -505,7 +505,7 @@ public class Demineur
       if (decouvrirPartiel2(x + 1, y)) n++;
       if (decouvrirPartiel2(x + 1, y + 1)) n++;
 
-      if (n == jeux[y][x].getChiffre()) { //si il y en a autant que le nombre de mines autour, on découvre les 8 cases autour par un appel récursif de decouvre(int, int)
+      if (n == jeux[y][x].getChiffre()) { //si il y en a autant que le nombre de mines autour, on dï¿½couvre les 8 cases autour par un appel rï¿½cursif de decouvre(int, int)
         if (decouvrirPartiel3(x - 1, y - 1)) decouvre(y - 1, x - 1);
         if (decouvrirPartiel3(x - 1, y)) decouvre(y, x - 1);
         if (decouvrirPartiel3(x - 1, y + 1)) decouvre(y + 1, x - 1);
@@ -530,7 +530,7 @@ public class Demineur
           if (! (y == i && x == j) && mines.charAt(i * LARGEUR + j) == '1' &&
               jeux[i][j].getEtat() != 2)
 
-            //si il ya une mine, (recherche par rapport à la chaîne mines
+            //si il ya une mine, (recherche par rapport ï¿½ la chaï¿½ne mines
             jeux[i][j].setEtat(5); //on l' affiche
         }
       }
@@ -542,7 +542,7 @@ public class Demineur
         }
       }
     }
-    //Si on gagne, c'est à dire le nombre de cases restantes est égal au nombre de mines restantes
+    //Si on gagne, c'est ï¿½ dire le nombre de cases restantes est ï¿½gal au nombre de mines restantes
     if (nCases == nMines && !jeux[0][0].isBlocked()) {
       temps.cancel(); //fin du timer
       affMines.setValeur(0);
@@ -557,7 +557,7 @@ public class Demineur
     }
   }
 
-  //si la case existe, on la découvre et si necessaire, on appelle le découvrement des cases autour
+  //si la case existe, on la dï¿½couvre et si necessaire, on appelle le dï¿½couvrement des cases autour
   public void decouvrirPartiel1(int x, int y) {
     if (x >= 0 && y >= 0 && x < LARGEUR && y < HAUTEUR) {
       if (jeux[y][x].getEtat() == 0 && jeux[y][x].getChiffre() != 0) {
@@ -565,11 +565,11 @@ public class Demineur
         nCases--;
       }
       if (jeux[y][x].getEtat() == 0 && jeux[y][x].getChiffre() == 0)
-        decouvre(y, x); //Si le nombre de mines autour est nul, on découvre les cases autour
+        decouvre(y, x); //Si le nombre de mines autour est nul, on dï¿½couvre les cases autour
     }
   }
 
-  //vérifie si la case existe et si elle porte un drapeau
+  //vï¿½rifie si la case existe et si elle porte un drapeau
   public boolean decouvrirPartiel2(int x, int y) {
     if (x >= 0 && y >= 0 && x < LARGEUR && y < HAUTEUR) {
       if (jeux[y][x].getEtat() == 2)
@@ -578,7 +578,7 @@ public class Demineur
     return false;
   }
 
-  //vérifie si la case existe et si elle n'est pas découverte ou si elle porte un '?'
+  //vï¿½rifie si la case existe et si elle n'est pas dï¿½couverte ou si elle porte un '?'
   public boolean decouvrirPartiel3(int x, int y) {
     if (x >= 0 && y >= 0 && x < LARGEUR && y < HAUTEUR) {
       if (jeux[y][x].getEtat() == 0 || jeux[y][x].getEtat() == 3)
@@ -618,11 +618,11 @@ public class Demineur
   public void windowDeactivated(WindowEvent e) {
   }
 
-  //évenements liés au menu
+  //ï¿½venements liï¿½s au menu
   public void actionPerformed(ActionEvent e) {
     if (e.getSource() == menuNouveau) nouveau();
     else if (e.getSource() == menuDebutant && TYPE != 1) {
-      this.dispose(); // on détruit la fenetre
+      this.dispose(); // on dï¿½truit la fenetre
       System.gc();
       if (TYPE == 1) menuDebutant.setSelected(true);
       Demineur demineur = new Demineur(8, 8, 10, 1); //et on en refait une
@@ -630,7 +630,7 @@ public class Demineur
     else if (e.getSource() == menuDebutant && !menuDebutant.isSelected())
       menuDebutant.setSelected(true);
     else if (e.getSource() == menuIntermediaire && TYPE != 2) {
-      this.dispose(); // on détruit la fenetre
+      this.dispose(); // on dï¿½truit la fenetre
       System.gc();
       if (TYPE == 2) menuIntermediaire.setSelected(true);
       Demineur demineur = new Demineur(16, 16, 40, 2);
@@ -638,17 +638,17 @@ public class Demineur
     else if (e.getSource() == menuIntermediaire &&
              !menuIntermediaire.isSelected()) menuIntermediaire.setSelected(true);
     else if (e.getSource() == menuExpert && TYPE != 3) {
-      this.dispose(); // on détruit la fenetre
+      this.dispose(); // on dï¿½truit la fenetre
       System.gc();
       if (TYPE == 3) menuExpert.setSelected(true);
       Demineur demineur = new Demineur(16, 30, 99, 3);
     }
     else if (e.getSource() == menuExpert && TYPE != 4) menuExpert.setSelected(true);
     else if (e.getSource() == menuPerso) {
-      //un peu particulier : tout est géré par la fenetre de personalisation
+      //un peu particulier : tout est gï¿½rï¿½ par la fenetre de personalisation
       if (TYPE == 4) menuPerso.setSelected(true);
       else menuPerso.setSelected(false);
-      Personaliser perso = new Personaliser(this, "Paramètres", true, HAUTEUR,
+      Personaliser perso = new Personaliser(this, "Paramï¿½tres", true, HAUTEUR,
                                             LARGEUR, nMines);
       perso.setLocation( (int)this.getLocation().getX() + 20,
                         (int)this.getLocation().getY() + 20);

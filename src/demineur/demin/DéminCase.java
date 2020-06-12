@@ -5,22 +5,22 @@ import java.awt.event.*;
 import javax.swing.*;
 
 //C'est une case de jeux en partie autonome
-//Elle gère elle même certain evènements de la souris
-//on peut en faire un Bean avec le fichier DéminCase.mf
-public class DéminCase
+//Elle gï¿½re elle mï¿½me certain evï¿½nements de la souris
+//on peut en faire un Bean avec le fichier Dï¿½minCase.mf
+public class DÃ©minCase
     extends JPanel
     implements MouseListener {
 
  
-private int etat = 0; //0 = rien; 1==enfoncée; 2=drapeau; 3=?; 4=boum; 5=mine; 6=erreur de drapeau
+private int etat = 0; //0 = rien; 1==enfoncï¿½e; 2=drapeau; 3=?; 4=boum; 5=mine; 6=erreur de drapeau
   private boolean mine = false; //Si il y a une mine
-  private boolean selected = false; //case enfoncée
-  private boolean blocked = false; //bloquée
-  private int chiffre = 0; //chiffre affiché s'il doit être affiché
+  private boolean selected = false; //case enfoncï¿½e
+  private boolean blocked = false; //bloquï¿½e
+  private int chiffre = 0; //chiffre affichï¿½ s'il doit ï¿½tre affichï¿½
 
-  private Graphisme gr = null; //l'objet qui contient les graphismes. Il est indiqué par setGraphisme(Graphisme)
+  private Graphisme gr = null; //l'objet qui contient les graphismes. Il est indiquï¿½ par setGraphisme(Graphisme)
 
-  public DéminCase() {
+  public DÃ©minCase() {
     try {
       //construction de la case
       jbInit();
@@ -50,13 +50,13 @@ public void mousePressed(MouseEvent e) {
   }
 
   public void mouseReleased(MouseEvent e) {
-    //Déselctionne la cases
+    //Dï¿½selctionne la cases
     selected = false;
     repaint();
   }
 
   public void mouseEntered(MouseEvent e) {
-    //Si la case est relevée est que la souris passe dessus avec le clic gauche, on séléctionne
+    //Si la case est relevï¿½e est que la souris passe dessus avec le clic gauche, on sï¿½lï¿½ctionne
     if (e.getModifiers() == 16 && etat != 1 && etat != 2 && !blocked) {
       selected = true;
       repaint();
@@ -109,7 +109,7 @@ public void mousePressed(MouseEvent e) {
                        RenderingHints.VALUE_ANTIALIAS_ON);
     g.setStroke(new BasicStroke(1.5f));*/
     if (gr != null) {
-      if (!selected) { //case non enfoncée
+      if (!selected) { //case non enfoncï¿½e
         if (etat == 0) { //normal
           g.setColor(Color.white); //bordure haut et gauche blanche
           g.drawLine(0, 0, 0, 15);
@@ -122,9 +122,9 @@ public void mousePressed(MouseEvent e) {
         else if (etat == 4) g.drawImage(gr.boum, 0, 0, null); //mine sur fond rouge
         else if (etat == 5) g.drawImage(gr.mine, 0, 0, null); //mine
       }
-      else { //case enfoncée
+      else { //case enfoncï¿½e
         if (etat == 3) g.drawImage(gr.questionSel, 0, 0, null); //?
-        else if (etat != 1) { //autre cas de case relevée normalement, seul le cas etat==0 en raison des conditions du reste du programme
+        else if (etat != 1) { //autre cas de case relevï¿½e normalement, seul le cas etat==0 en raison des conditions du reste du programme
           g.setColor(Color.gray); //bordure haut et gauche grise
           g.drawLine(0, 0, 0, 15);
           g.drawLine(0, 0, 15, 0);
@@ -150,7 +150,7 @@ public void mousePressed(MouseEvent e) {
     this.gr = gr;
   }
 
-  public void reset() { //remise à zero des principaux paramètres
+  public void reset() { //remise ï¿½ zero des principaux paramï¿½tres
     this.etat = 0;
     this.selected = false;
     setMine(false);
